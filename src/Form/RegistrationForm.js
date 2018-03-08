@@ -99,5 +99,67 @@ class RegistrationForm extends Component {
         )
         const websiteOptions = autoCompleteResult.map(website => (
             <AutoCompleteOption key={website}>{website}</AutoCompleteOption>))
+            return(
+                <Form onSubmit={this.handleSubmit}>
+                <FormItem {...formItemLayout} label="E-mail">
+                {
+                    getFieldDecorator('email',{
+                        rules:[{
+                            type:'email',message:'The input is not valid E-mail'
+                        },{
+                            required:true,
+                            message:'Please input your E-mail'
+                        }]
+                    })(<Input placeholder="email"/>)
+                }</FormItem>
+                <FormItem {...formItemLayout} label="Password">
+                {
+                    getFieldDecorator('password',{
+                        rules:[{
+                            required:true,message:'Please input your password!'
+                        },{
+                            validator:this.validateToNextPassword
+                        }]
+                    })(<Input type="password" />)
+                }</FormItem>
+                <FormItem {...formItemLayout} label="Confirm Password">
+                {
+                    getFieldDecorator('confirm',{
+                        rules:[
+                            {
+                                required:true,message:'Please confirm your password!'
+                            },{
+                                validator:this.compareToFirstPassword
+                            }
+                        ]
+                    })(<Input type="password" onBlur={this.handleConfirmBlur} />)
+                }</FormItem>
+                <FormItem {...formItemLayout}
+                label={(
+                    <span>
+                        Nickname&nbsp;
+                        <Tooltip title="What do you want others to call you?">
+                        <Icon type="question-circle-o" />
+                        </Tooltip>
+                    </span>
+                )}>
+                {getFieldDecorator('nickname',{
+                    rules:[{required:true,message:'Please input your nickname!'}]
+                })(<Input />)
+                }
+                </FormItem>
+                <FormItem {...formItemLayout} label="Residence Address">
+                {
+                    getFieldDecorator('residence',{
+                        rules:[{
+                            type:'array',required:true,message:'Please select your residence Address'
+                        }]
+                    })
+                }
+                </FormItem>
+                </Form>
+            )
     }
 }
+const WrappedRegistrationForm=Form.create()(RegistrationForm);
+export default WrappedRegistrationForm;
